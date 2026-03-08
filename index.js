@@ -20,7 +20,7 @@ class Posts {
     postToLike.likes++;
   }
 
-  getFeet() {
+  getFeed() {
     return this.posts;
   }
 
@@ -40,35 +40,35 @@ class Posts {
 const posts = new Posts([
   {
     id: 1,
-    username: "paul",
+    username: "Paul",
     content: "Just wrote a song in my sleep!",
     likes: 100,
     timestamp: 17100512322,
   },
   {
     id: 2,
-    username: "john",
+    username: "John",
     content: "Just Imagine!",
     likes: 222,
     timestamp: 1456217100,
   },
   {
     id: 3,
-    username: "george",
+    username: "George",
     content: "Whose mind am I set on?!",
     likes: 32,
     timestamp: 1715330000,
   },
   {
     id: 4,
-    username: "ringo",
+    username: "Ringo",
     content: "The real players know I'm underated.",
     likes: 112,
     timestamp: 1234505000,
   },
 ]);
 
-posts.createPost("yoko", "John, where are you John?");
+posts.createPost("Yoko", "John, where are you John?");
 console.log(posts.likePost(5));
 
 posts.sortByNewest();
