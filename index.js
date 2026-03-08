@@ -75,8 +75,8 @@ posts.sortByNewest();
 console.log(posts);
 
 posts.sortByLikes();
-console.log(posts.getFeet());
+console.log(posts.getFeed());
 
-console.log(posts.getPostsByUser("ringo"));
+console.log(posts.getPostsByUser("Ringo"));
 
 // reusable to make new Posts class for a different array of objects
