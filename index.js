@@ -69,13 +69,15 @@ const posts = new Posts([
 ]);
 
 posts.createPost("Yoko", "John, where are you John?");
-console.log(posts.likePost(5));
+console.log(posts);
+posts.likePost(5);
+posts.likePost(3);
 
 posts.sortByNewest();
 console.log(posts);
 
 posts.sortByLikes();
-console.log(posts.getFeed());
+console.log(posts);
 
 console.log(posts.getPostsByUser("Ringo"));
 
