@@ -132,10 +132,18 @@ a:focus {
   place-self: center;
 }
 
-.post-button-container {
+.post-button-container,
+.posts-buttons {
   display: flex;
   justify-content: center;
   gap: 1rem;
+}
+
+@media screen and (max-width: 350px) {
+  .post-button-container,
+  .posts-buttons {
+    gap: 0;
+  }
 }
 
 .li-container {

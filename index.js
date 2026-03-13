@@ -65,10 +65,10 @@ const posts = new Posts([
   {
     id: 1,
     username: "Paul",
-    content: "Just wrote a song in my sleep!",
-    likes: 100,
+    content: "Just wrote another song in my sleep!",
+    likes: 500,
     liked: false,
-    timestamp: 17100512322,
+    timestamp: 117100512322,
   },
   {
     id: 2,
@@ -76,15 +76,15 @@ const posts = new Posts([
     content: "Just Imagine!",
     likes: 222,
     liked: false,
-    timestamp: 1456217100,
+    timestamp: 91456217100,
   },
   {
     id: 3,
     username: "George",
     content: "Whose mind am I set on?!",
-    likes: 32,
+    likes: 332,
     liked: false,
-    timestamp: 1715330000,
+    timestamp: 613715330000,
   },
   {
     id: 4,
@@ -92,7 +92,7 @@ const posts = new Posts([
     content: "The real players know I'm underated.",
     likes: 112,
     likedPost: false,
-    timestamp: 1234505000,
+    timestamp: 724234505000,
   },
 ]);
 // orginal project tests
@@ -120,8 +120,13 @@ const createLis = (array, container) => {
   if (array.length === 0) {
     let emptyMessage = document.createElement("li");
     emptyMessage.className = "li-container text-center";
-    emptyMessage.innerHTML =
-      "The posts array is empty! Please add a post in the field below and click the Add Post button to make it appear!!";
+    if (container === foundPostsContainer) {
+      emptyMessage.innerHTML =
+        "This user doesn't have any more posts! Look for someone else!";
+    } else {
+      emptyMessage.innerHTML =
+        "The posts array is empty! Please add a post in the field below and click the Add Post button to make it appear!!";
+    }
     container.appendChild(emptyMessage);
     return;
   }
@@ -186,7 +191,13 @@ const createLis = (array, container) => {
     liDeleteButton.addEventListener("click", () => {
       console.log(item.id);
       posts.deletePost(item.id);
-      createLis(posts.posts, container);
+
+      if (container === foundPostsContainer) {
+        const updatedUserPosts = posts.getPostsByUser(item.username);
+        createLis(updatedUserPosts, container);
+      } else {
+        createLis(posts.posts, container);
+      }
     });
   });
 };
@@ -246,10 +257,10 @@ findPostsForm.addEventListener("submit", (e) => {
     if (foundPosts.length > 0) {
       console.log("found the posts", foundPosts);
       createLis(foundPosts, foundPostsContainer);
-      findPostsForm.reset();
     } else {
-      alert("no items found");
+      createLis([], foundPostsContainer);
     }
+    findPostsForm.reset();
   } else {
     alert("Please enter a valid username!!");
   }
