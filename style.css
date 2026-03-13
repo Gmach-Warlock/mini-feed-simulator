@@ -1,5 +1,5 @@
 :root {
-  --text-sm: 1.125rem;
+  --text-sm: 0.9rem;
   --text-md: 1.25rem;
   --text-xl: 1.5rem;
   --text-2xl: 2rem;
@@ -121,10 +121,16 @@ button:hover {
   border: 1px solid black;
 }
 
+input,
+a,
+textarea {
+  font-size: var(--text-sm);
+}
+
 input:focus,
-a:focus {
+a:focus,
+textarea:focus {
   outline: 2px solid blue;
-  outline-offset: 2px;
 }
 
 .button-likePost,

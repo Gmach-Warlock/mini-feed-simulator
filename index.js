@@ -223,6 +223,13 @@ const addPostForm = document.querySelector(".form-addPost");
 const userNameInputData = document.querySelector("#newPost-username");
 const contentInputData = document.querySelector("#post-content");
 
+contentInputData.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    addPostForm.requestSubmit();
+  }
+});
+
 addPostForm.addEventListener("submit", (e) => {
   e.preventDefault();
 
