@@ -1,3 +1,14 @@
+function generateRandomString(length) {
+  let text = "";
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (let i = 0; i < length; i++) {
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  }
+  return text;
+}
+
 class Posts {
   constructor(posts) {
     this.posts = posts;
@@ -5,7 +16,7 @@ class Posts {
 
   createPost(username, content) {
     const newPost = {
-      id: this.posts.length + 1,
+      id: generateRandomString(6),
       username: username,
       content: content,
       likes: 0,
@@ -13,12 +24,18 @@ class Posts {
       timestamp: Date.now(),
     };
     this.posts.push(newPost);
+    console.log(posts.posts);
   }
 
   likePost(postId) {
     const postToLike = this.posts.find((post) => post.id === postId);
 
     postToLike.likes++;
+  }
+  unlikePost(postId) {
+    const postToUnlike = this.posts.find((post) => post.id === postId);
+
+    postToUnlike.likes--;
   }
 
   getFeed() {
@@ -37,6 +54,9 @@ class Posts {
     return this.posts.filter(
       (post) => post.username.toLowerCase() === username.toLowerCase(),
     );
+  }
+  deletePost(id) {
+    this.posts = this.posts.filter((post) => post.id !== id);
   }
 }
 // feel free to change this for testing purposes
@@ -71,7 +91,7 @@ const posts = new Posts([
     username: "Ringo",
     content: "The real players know I'm underated.",
     likes: 112,
-    liked: false,
+    likedPost: false,
     timestamp: 1234505000,
   },
 ]);
@@ -96,6 +116,15 @@ console.log(postsContainer);
 
 const createLis = (array, container) => {
   container.innerHTML = "";
+
+  if (array.length === 0) {
+    let emptyMessage = document.createElement("li");
+    emptyMessage.className = "li-container text-center";
+    emptyMessage.innerHTML =
+      "The posts array is empty! Please add a post in the field below and click the Add Post button to make it appear!!";
+    container.appendChild(emptyMessage);
+    return;
+  }
 
   array.forEach((item) => {
     let li = document.createElement("li");
@@ -128,17 +157,36 @@ const createLis = (array, container) => {
     liLikes.className = "li-likes";
     li.appendChild(liLikes);
 
+    let liButtonDiv = document.createElement("div");
+    liButtonDiv.className = "post-button-container";
+    li.appendChild(liButtonDiv);
+
     let liLikeButton = document.createElement("button");
     liLikeButton.type = "button";
     liLikeButton.className = "button button-likePost";
     liLikeButton.textContent = "Like";
-    li.appendChild(liLikeButton);
+    liButtonDiv.appendChild(liLikeButton);
     liLikeButton.addEventListener("click", () => {
       if (!item.likedPost) {
         posts.likePost(item.id);
         item.likedPost = true;
-        createLis(array, container);
+        createLis(posts.posts, container);
+      } else {
+        posts.unlikePost(item.id);
+        item.likedPost = false;
+        createLis(posts.posts, container);
       }
+    });
+
+    let liDeleteButton = document.createElement("button");
+    liDeleteButton.type = "button";
+    liDeleteButton.className = "button button-deletePost";
+    liDeleteButton.textContent = "Delete";
+    liButtonDiv.appendChild(liDeleteButton);
+    liDeleteButton.addEventListener("click", () => {
+      console.log(item.id);
+      posts.deletePost(item.id);
+      createLis(posts.posts, container);
     });
   });
 };
@@ -200,7 +248,7 @@ findPostsForm.addEventListener("submit", (e) => {
       createLis(foundPosts, foundPostsContainer);
       findPostsForm.reset();
     } else {
-      console.log("no items found");
+      alert("no items found");
     }
   } else {
     alert("Please enter a valid username!!");

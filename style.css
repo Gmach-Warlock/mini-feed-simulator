@@ -127,8 +127,15 @@ a:focus {
   outline-offset: 2px;
 }
 
-.button-likePost {
+.button-likePost,
+.button-deletePost {
   place-self: center;
+}
+
+.post-button-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
 }
 
 .li-container {
