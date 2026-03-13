@@ -9,6 +9,7 @@ class Posts {
       username: username,
       content: content,
       likes: 0,
+      liked: false,
       timestamp: Date.now(),
     };
     this.posts.push(newPost);
@@ -33,9 +34,12 @@ class Posts {
   }
 
   getPostsByUser(username) {
-    return this.posts.filter((post) => post.username === username);
+    return this.posts.filter(
+      (post) => post.username.toLowerCase() === username.toLowerCase(),
+    );
   }
 }
+// feel free to change this for testing purposes
 
 const posts = new Posts([
   {
@@ -43,6 +47,7 @@ const posts = new Posts([
     username: "Paul",
     content: "Just wrote a song in my sleep!",
     likes: 100,
+    liked: false,
     timestamp: 17100512322,
   },
   {
@@ -50,6 +55,7 @@ const posts = new Posts([
     username: "John",
     content: "Just Imagine!",
     likes: 222,
+    liked: false,
     timestamp: 1456217100,
   },
   {
@@ -57,6 +63,7 @@ const posts = new Posts([
     username: "George",
     content: "Whose mind am I set on?!",
     likes: 32,
+    liked: false,
     timestamp: 1715330000,
   },
   {
@@ -64,11 +71,12 @@ const posts = new Posts([
     username: "Ringo",
     content: "The real players know I'm underated.",
     likes: 112,
+    liked: false,
     timestamp: 1234505000,
   },
 ]);
-
-posts.createPost("Yoko", "John, where are you John?");
+// orginal project tests
+/* posts.createPost("Yoko", "John, where are you John?");
 console.log(posts);
 posts.likePost(5);
 posts.likePost(3);
@@ -79,6 +87,122 @@ console.log(posts);
 posts.sortByLikes();
 console.log(posts);
 
-console.log(posts.getPostsByUser("Ringo"));
+console.log(posts.getPostsByUser("Ringo")); */
 
 // reusable to make new Posts class for a different array of objects
+
+const postsContainer = document.querySelector(".posts-container");
+console.log(postsContainer);
+
+const createLis = (array, container) => {
+  container.innerHTML = "";
+
+  array.forEach((item) => {
+    let li = document.createElement("li");
+    li.className = "li-container flex-column";
+    container.appendChild(li);
+
+    let liH3 = document.createElement("h3");
+    liH3.textContent = item.content;
+    li.appendChild(liH3);
+
+    let liP = document.createElement("p");
+    liP.textContent = `author: ${item.username}`;
+    liP.className = "li-p";
+    li.appendChild(liP);
+
+    let liTimestamp = document.createElement("p");
+    const convertEpochToDateOnly = (timeInEpochSecondes) => {
+      const dateObject = new Date(timeInEpochSecondes);
+
+      const dateOnly = dateObject.toDateString();
+      // e.g., "Wed Mar 15 2023"
+
+      return dateOnly;
+    };
+    liTimestamp.textContent = `created: ${convertEpochToDateOnly(item.timestamp)}`;
+    li.appendChild(liTimestamp);
+
+    let liLikes = document.createElement("p");
+    liLikes.textContent = `likes: ${item.likes}`;
+    liLikes.className = "li-likes";
+    li.appendChild(liLikes);
+
+    let liLikeButton = document.createElement("button");
+    liLikeButton.type = "button";
+    liLikeButton.className = "button button-likePost";
+    liLikeButton.textContent = "Like";
+    li.appendChild(liLikeButton);
+    liLikeButton.addEventListener("click", () => {
+      if (!item.likedPost) {
+        posts.likePost(item.id);
+        item.likedPost = true;
+        createLis(array, container);
+      }
+    });
+  });
+};
+
+const getFeedButton = document.querySelector(".button-get-feed");
+getFeedButton.addEventListener("click", () => {
+  createLis(posts.posts, postsContainer);
+});
+
+const sortByNewestButton = document.querySelector(".button-sort-by-timestamp");
+sortByNewestButton.addEventListener("click", () => {
+  posts.sortByNewest();
+  createLis(posts.posts, postsContainer);
+});
+
+const sortByLikesButton = document.querySelector(".button-sort-by-likes");
+sortByLikesButton.addEventListener("click", () => {
+  posts.sortByLikes();
+  createLis(posts.posts, postsContainer);
+});
+
+const addPostForm = document.querySelector(".form-addPost");
+const userNameInputData = document.querySelector("#newPost-username");
+const contentInputData = document.querySelector("#post-content");
+
+addPostForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const username = userNameInputData.value;
+  const content = contentInputData.value;
+
+  if (username && content) {
+    posts.createPost(username, content);
+
+    createLis(posts.posts, postsContainer);
+
+    addPostForm.reset();
+  } else {
+    alert("Please fill out both fields here!!");
+  }
+});
+
+const findPostsForm = document.querySelector(".form-getPostsByUsername");
+const usernameToLookFor = document.querySelector(
+  "#getPostsByUsername-username-input",
+);
+const foundPostsContainer = document.querySelector(".foundPosts-container");
+
+findPostsForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const username = usernameToLookFor.value.trim();
+
+  if (username) {
+    const foundPosts = posts.getPostsByUser(username);
+
+    if (foundPosts.length > 0) {
+      console.log("found the posts", foundPosts);
+      createLis(foundPosts, foundPostsContainer);
+      findPostsForm.reset();
+    } else {
+      console.log("no items found");
+    }
+  } else {
+    alert("Please enter a valid username!!");
+  }
+});

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Rubik+Glitch&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Mini Feed Simulator</title>
+  </head>
+  <body>
+    <div class="body-container flex-column">
+      <h1 class="font-glitch text-center">Mini Feed Simulator</h1>
+
+      <div class="card posts-feed flex-column justify-between">
+        <h2 class="text-center">Posts</h2>
+        <ul class="posts-container"></ul>
+      </div>
+
+      <section class="posts-buttons flex justify-center gap-1">
+        <button type="button" class="button button-get-feed">Get Feed</button>
+
+        <button type="button" class="button button-sort-by-timestamp">
+          Sort by Newest
+        </button>
+        <button type="button" class="button button-sort-by-likes">
+          Sort by Likes
+        </button>
+      </section>
+
+      <section class="card posts-add-post">
+        <form placeholder="Enter your username" class="form-addPost">
+          <h2>Add a Post</h2>
+          <div>
+            <input
+              type="text"
+              name="newPost-username"
+              id="newPost-username"
+              title="newPost username"
+              aria-label="new post username"
+              placeholder="Enter your username"
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              name="post-content"
+              id="post-content"
+              title="post content"
+              aria-label="post content"
+              placeholder="Enter you post here"
+            />
+          </div>
+          <div class="place-self-center">
+            <button
+              type="submit"
+              class="button button-blue button-add-post place-self-center"
+            >
+              Add Post
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card posts-getPostsByUsername">
+        <h2>Find posts by username</h2>
+
+        <div>
+          <ul class="foundPosts-container"></ul>
+        </div>
+
+        <form action="/" class="form-getPostsByUsername flex-column">
+          <div>
+            <input
+              type="text"
+              name="getPostsByUsername-username-input"
+              id="getPostsByUsername-username-input"
+              title="getPostsByUsername username input"
+              aria-label="get posts by username input"
+              placeholder="Enter username"
+            />
+          </div>
+
+          <div class="place-self-center">
+            <button
+              type="submit"
+              name="getPostsByUsername-button"
+              class="button button-blue button-getPostsByUsername place-self-center"
+              id="getPostsByUsername-button"
+              title="getPostsByUsername button"
+            >
+              Find Posts
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <footer>&copy;2026 GMach</footer>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>

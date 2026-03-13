@@ -1,0 +1,147 @@
+:root {
+  --text-sm: 1.125rem;
+  --text-md: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 2rem;
+
+  --color-blue-300: hsl(240, 100%, 65%);
+  --color-blue-700: hsl(240, 100%, 35%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  background-color: black;
+  color: white;
+}
+li {
+  list-style-type: none;
+}
+.body-container {
+  background-color: blue;
+  min-height: 100vh;
+}
+
+.font-glitch {
+  font-family: "Rubik Glitch", system-ui;
+}
+
+h1 {
+  font-size: var(--text-2xl);
+  padding-block: 2rem;
+}
+h2 {
+  font-size: var(--text-xl);
+  color: blue;
+  margin: 0.25rem;
+  text-align: center;
+}
+h3 {
+  text-align: center;
+}
+
+.text-center {
+  text-align: center;
+}
+.place-content-center {
+  place-content: center;
+}
+.place-self-center {
+  place-self: center;
+}
+.flex {
+  display: flex;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.justify-center {
+  justify-content: center;
+}
+.gap-1 {
+  gap: 1rem;
+}
+
+.posts-add-post {
+  padding-top: 0.25rem;
+}
+.posts-feed {
+  padding-bottom: 1rem;
+}
+
+.newPost-card {
+  border: 1px solid blue;
+  margin: 1rem;
+}
+
+button {
+  background-color: white;
+  color: blue;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+}
+button:hover {
+  background-color: yellow;
+}
+
+.button-add-post {
+  background-color: blue;
+  color: white;
+}
+
+.card {
+  min-height: 5rem;
+  margin: 1rem 2rem;
+  padding-inline: 1rem;
+  background-color: white;
+  color: black;
+  border-radius: 0.25rem;
+}
+
+.button-blue {
+  background-color: blue;
+  color: white;
+  margin: 0.5rem;
+}
+.button-blue:hover {
+  background-color: var(--color-blue-300);
+}
+.button-blue:focus {
+  background-color: var(--color-blue-700);
+  border: 1px solid black;
+}
+
+input:focus,
+a:focus {
+  outline: 2px solid blue;
+  outline-offset: 2px;
+}
+
+.button-likePost {
+  place-self: center;
+}
+
+.li-container {
+  background-color: blue;
+  color: white;
+  margin: 0.25rem;
+  padding: 1rem;
+  border-radius: 0.25rem;
+}
+
+footer {
+  text-align: center;
+  justify-self: end;
+  margin-top: auto;
+  padding: 1rem;
+}
