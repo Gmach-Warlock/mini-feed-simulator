@@ -20,9 +20,16 @@
 - Filter Posts by User
   - getPostsByUser() should return all of the posts by the username provided
 
-- No DOM manipulation
-- No frameworks
-
 ### Posts class
 
 - I used a class to create the posts to allow for future scalability. This would allow these functions to be used in multiple instances, making it usable with multiple social platforms or feeds.
+
+#### DOM manipulation and Event Listeners Added
+
+- button created to display the feed,
+- sort buttons created
+- an area for creating new posts with a username input and a content textfield
+- each post has a like and delete button
+- an input field for username and a find button created to search for the posts of a particular user
+- a default message is displayed in the window as well as custom messages based on the current operation
+- any time any changes are made the feed is re-rendered
