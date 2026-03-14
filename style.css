@@ -6,118 +6,73 @@
 
   --primary-hsl: 240, 100%;
   --base-lightness: 50%;
-
   --color-primary-300: hsl(var(--primary-hsl), 65%);
   --color-primary-500: hsl(var(--primary-hsl), var(--base-lightness));
   --color-primary-700: hsl(var(--primary-hsl), 35%);
   --color-primary-900: hsl(var(--primary-hsl), 10%);
-
   --color-active-500: hsl(134, 61%, 41%);
   --color-active-700: hsl(134, 61%, 31%);
+
+  --font-roboto: "Roboto", sans-serif;
+  --font-glitch: "Rubik Glitch", system-ui;
 }
+
+/* 1. Global / Reset */
 
 * {
   margin: 0;
   padding: 0;
-  border: 0;
   box-sizing: border-box;
-  font-family: "Roboto", sans-serif;
-}
-
-body {
-  background-color: var(--color-primary-700);
-  color: white;
 }
 li {
   list-style-type: none;
 }
-.body-container {
+body {
+  font-family: var(--font-roboto);
+  background-color: var(--color-primary-700);
+  color: white;
+}
+
+/* 2. Block: Page */
+
+.page {
   background-color: transparent;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
-
-.font-glitch {
-  font-family: "Rubik Glitch", system-ui;
-}
-
-h1 {
+.page__title {
   font-size: var(--text-2xl);
+  font-family: var(--font-glitch);
   padding-block: 2rem;
   text-shadow: 2px 2px 8px hsl(var(--primary-hsl), 5%);
+  text-align: center;
 }
-h2 {
+.page__footer {
+  text-align: center;
+  justify-self: end;
+  margin-top: auto;
+  padding: 1rem;
+}
+
+/* 3. Block: Section */
+
+.section__title {
   font-size: var(--text-xl);
   color: var(--color-primary-500);
   margin: 0.25rem;
   text-align: center;
 }
-h3 {
-  text-align: center;
+.section__input,
+.section__text-area {
+  font-size: var(--text-sm);
+}
+.section__input:focus,
+.section__text-area:focus {
+  outline: 2px solid var(--color-primary-500);
 }
 
-.text-center {
-  text-align: center;
-}
-.place-content-center {
-  place-content: center;
-}
-.place-self-center {
-  place-self: center;
-}
-.flex {
-  display: flex;
-}
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
-.justify-between {
-  justify-content: space-between;
-}
-.justify-center {
-  justify-content: center;
-}
-.gap-1 {
-  gap: 1rem;
-}
-
-.posts-add-post {
-  padding-top: 0.25rem;
-}
-.posts-feed {
-  padding-bottom: 1rem;
-}
-
-.newPost-card {
-  border: 1px solid var(--color-primary-500);
-  margin: 1rem;
-}
-
-button {
-  background-color: white;
-  color: var(--color-primary-500);
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.5rem;
-}
-button:hover,
-.button-blue:hover {
-  background-color: var(--color-active-500);
-  color: white;
-}
-
-.button-likePost.active {
-  background-color: var(--color-active-500);
-  color: white;
-  border: 2px solid var(--color-active-700);
-
-  transform: scale(1.05);
-  transition: all 0.2s ease;
-}
-
-.button-add-post {
-  background-color: var(--color-primary-500);
-  color: white;
-}
+/* 4. Block: Card */
 
 .card {
   min-height: 5rem;
@@ -127,9 +82,8 @@ button:hover,
     linear-gradient(
       135deg,
       hsla(0, 0%, 100%, 0.5) 0%,
-      /* Brightest 'shine' at top left */ hsla(0, 0%, 100%, 0.1) 50%,
-      /* Mid-tone transition */ transparent 100%
-        /* Fades to show the background */
+      hsla(0, 0%, 100%, 0.1) 50%,
+      transparent 100%
     ),
     hsla(0, 0%, 100%, 0.9);
 
@@ -140,64 +94,118 @@ button:hover,
   filter: drop-shadow(4px 4px 10px hsl(var(--primary-hsl), 5%));
   transition: filter 0.3s ease;
 }
-
 .card:hover {
   filter: drop-shadow(8px 8px 15px hsl(var(--primary-hsl), 2%));
 }
-
-.button-blue {
-  background-color: var(--color-primary-500);
-  color: white;
-  margin: 0.5rem;
+.card--new-post {
+  border: 1px solid var(--color-primary-500);
+  margin: 1rem;
 }
-
-.button-blue:focus {
-  background-color: var(--color-primary-500);
-  border: 1px solid black;
-}
-
-input,
-a,
-textarea {
-  font-size: var(--text-sm);
-}
-
-input:focus,
-a:focus,
-textarea:focus {
-  outline: 2px solid var(--color-primary-500);
-}
-
-.button-likePost,
-.button-deletePost {
-  place-self: center;
-}
-
-.post-button-container,
-.posts-buttons {
+.card__actions,
+.feed__controls {
   display: flex;
   justify-content: center;
   gap: 1rem;
 }
-
-@media screen and (max-width: 350px) {
-  .post-button-container,
-  .posts-buttons {
-    gap: 0;
-  }
+.card--add {
+  padding-top: 0.25rem;
+}
+.card--feed {
+  padding-bottom: 1rem;
 }
 
-.li-container {
+/* 5. Block: Button */
+
+.btn {
+  background-color: white;
+  color: var(--color-primary-500);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+}
+.btn:hover,
+.btn--primary:hover {
+  background-color: var(--color-active-500);
+  color: white;
+}
+.btn:focus {
+  background-color: var(--color-active-500);
+  color: white;
+  border: 2px solid var(--color-active-700);
+
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+.btn:active {
+  /* Visuals */
+  background-color: white;
+  color: var(--color-active-500);
+  box-shadow: 0 0 15px var(--color-active-500);
+
+  /* Misc */
+  transform: translateY(2px); /* Moves down slightly */
+}
+
+.btn--primary {
+  background-color: var(--color-primary-500);
+  color: white;
+  margin: 0.5rem;
+  place-self: center;
+}
+.btn--primary:focus {
+  background-color: var(--color-primary-500);
+  border: 1px solid black;
+}
+.btn--accent {
+  background-color: var(--color-primary-500);
+  color: white;
+}
+.btn--like,
+.btn--delete {
+  place-self: center;
+}
+.btn--active {
+  /* This handles the "Sticky" state (Post is Liked) */
+  background-color: var(--color-active-500);
+  color: white;
+}
+
+/* 6. Block: Feed */
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.feed__container {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  list-style-type: none;
+}
+.feed__item {
   background-color: var(--color-primary-700);
   color: white;
   margin: 0.25rem;
   padding: 1rem;
   border-radius: 0.25rem;
+  text-align: center;
 }
 
-footer {
-  text-align: center;
-  justify-self: end;
-  margin-top: auto;
-  padding: 1rem;
+/* 7. Block Find */
+
+.find__form {
+  display: flex;
+  flex-direction: column;
+}
+.find__submit {
+  display: flex;
+  place-items: center;
+}
+
+/* 8. media queries */
+
+@media screen and (max-width: 350px) {
+  .feed__controls {
+    gap: 0;
+  }
 }

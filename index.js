@@ -118,7 +118,7 @@ console.log(posts);
 console.log(posts.getPostsByUser("Ringo")); */
 
 // create Posts container and li's
-const postsContainer = document.querySelector(".posts-container");
+const postsContainer = document.querySelector(".feed__container");
 console.log(postsContainer);
 
 const createLis = (array, container) => {
@@ -126,7 +126,7 @@ const createLis = (array, container) => {
   // controls the message based on the container
   if (array.length === 0) {
     let emptyMessage = document.createElement("li");
-    emptyMessage.className = "li-container text-center";
+    emptyMessage.className = "feed__item";
     if (container === foundPostsContainer) {
       emptyMessage.innerHTML =
         "This user doesn't have any more posts! Look for someone else!";
@@ -140,7 +140,7 @@ const createLis = (array, container) => {
   // loops through the array and creates each li and it's parts
   array.forEach((item) => {
     let li = document.createElement("li");
-    li.className = "li-container flex-column";
+    li.className = "feed__item";
     container.appendChild(li);
 
     let liH3 = document.createElement("h3");
@@ -149,7 +149,7 @@ const createLis = (array, container) => {
 
     let liP = document.createElement("p");
     liP.textContent = `author: ${item.username}`;
-    liP.className = "li-p";
+    liP.className = "feed__author";
     li.appendChild(liP);
 
     let liTimestamp = document.createElement("p");
@@ -164,16 +164,16 @@ const createLis = (array, container) => {
 
     let liLikes = document.createElement("p");
     liLikes.textContent = `likes: ${item.likes}`;
-    liLikes.className = "li-likes";
+    liLikes.className = "feed__likes";
     li.appendChild(liLikes);
 
     let liButtonDiv = document.createElement("div");
-    liButtonDiv.className = "post-button-container";
+    liButtonDiv.className = "feed__actions";
     li.appendChild(liButtonDiv);
 
     let liLikeButton = document.createElement("button");
     liLikeButton.type = "button";
-    liLikeButton.className = "button button-likePost";
+    liLikeButton.className = "btn btn--like";
     liLikeButton.textContent = "Like";
     liButtonDiv.appendChild(liLikeButton);
     liLikeButton.addEventListener("click", () => {
@@ -188,12 +188,12 @@ const createLis = (array, container) => {
       }
     });
 
-    liLikeButton.classList.toggle("active", item.likedPost);
+    liLikeButton.classList.toggle("btn--active", item.likedPost);
     liLikeButton.textContent = item.likedPost ? "Unlike" : "Like";
 
     let liDeleteButton = document.createElement("button");
     liDeleteButton.type = "button";
-    liDeleteButton.className = "button button-deletePost";
+    liDeleteButton.className = "btn btn--delete";
     liDeleteButton.textContent = "Delete";
     liButtonDiv.appendChild(liDeleteButton);
     liDeleteButton.addEventListener("click", () => {
@@ -211,25 +211,25 @@ const createLis = (array, container) => {
 };
 
 // set event listeners on buttons for Posts container
-const getFeedButton = document.querySelector(".button-get-feed");
+const getFeedButton = document.querySelector(".btn--feed");
 getFeedButton.addEventListener("click", () => {
   createLis(posts.posts, postsContainer);
 });
 
-const sortByNewestButton = document.querySelector(".button-sort-by-timestamp");
+const sortByNewestButton = document.querySelector(".btn--timestamp");
 sortByNewestButton.addEventListener("click", () => {
   posts.sortByNewest();
   createLis(posts.posts, postsContainer);
 });
 
-const sortByLikesButton = document.querySelector(".button-sort-by-likes");
+const sortByLikesButton = document.querySelector(".btn--likes");
 sortByLikesButton.addEventListener("click", () => {
   posts.sortByLikes();
   createLis(posts.posts, postsContainer);
 });
 
 // add post form event listener
-const addPostForm = document.querySelector(".form-addPost");
+const addPostForm = document.querySelector(".add__form");
 const userNameInputData = document.querySelector("#newPost-username");
 const contentInputData = document.querySelector("#post-content");
 
@@ -259,11 +259,11 @@ addPostForm.addEventListener("submit", (e) => {
 });
 
 // find posts form event listener
-const findPostsForm = document.querySelector(".form-getPostsByUsername");
+const findPostsForm = document.querySelector(".find__form");
 const usernameToLookFor = document.querySelector(
   "#getPostsByUsername-username-input",
 );
-const foundPostsContainer = document.querySelector(".foundPosts-container");
+const foundPostsContainer = document.querySelector(".find__feed");
 
 findPostsForm.addEventListener("submit", (e) => {
   e.preventDefault();
