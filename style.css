@@ -4,8 +4,16 @@
   --text-xl: 1.5rem;
   --text-2xl: 2rem;
 
-  --color-blue-300: hsl(240, 100%, 65%);
-  --color-blue-700: hsl(240, 100%, 35%);
+  --primary-hsl: 240, 100%;
+  --base-lightness: 50%;
+
+  --color-primary-300: hsl(var(--primary-hsl), 65%);
+  --color-primary-500: hsl(var(--primary-hsl), var(--base-lightness));
+  --color-primary-700: hsl(var(--primary-hsl), 35%);
+  --color-primary-900: hsl(var(--primary-hsl), 10%);
+
+  --color-active-500: hsl(134, 61%, 41%);
+  --color-active-700: hsl(134, 61%, 31%);
 }
 
 * {
@@ -17,14 +25,14 @@
 }
 
 body {
-  background-color: black;
+  background-color: var(--color-primary-700);
   color: white;
 }
 li {
   list-style-type: none;
 }
 .body-container {
-  background-color: blue;
+  background-color: transparent;
   min-height: 100vh;
 }
 
@@ -35,10 +43,11 @@ li {
 h1 {
   font-size: var(--text-2xl);
   padding-block: 2rem;
+  text-shadow: 2px 2px 8px hsl(var(--primary-hsl), 5%);
 }
 h2 {
   font-size: var(--text-xl);
-  color: blue;
+  color: var(--color-primary-500);
   margin: 0.25rem;
   text-align: center;
 }
@@ -80,22 +89,33 @@ h3 {
 }
 
 .newPost-card {
-  border: 1px solid blue;
+  border: 1px solid var(--color-primary-500);
   margin: 1rem;
 }
 
 button {
   background-color: white;
-  color: blue;
+  color: var(--color-primary-500);
   padding: 0.25rem 0.5rem;
   border-radius: 0.5rem;
 }
-button:hover {
-  background-color: yellow;
+button:hover,
+.button-blue:hover {
+  background-color: var(--color-active-500);
+  color: white;
+}
+
+.button-likePost.active {
+  background-color: var(--color-active-500);
+  color: white;
+  border: 2px solid var(--color-active-700);
+
+  transform: scale(1.05);
+  transition: all 0.2s ease;
 }
 
 .button-add-post {
-  background-color: blue;
+  background-color: var(--color-primary-500);
   color: white;
 }
 
@@ -103,21 +123,36 @@ button:hover {
   min-height: 5rem;
   margin: 1rem 2rem;
   padding-inline: 1rem;
-  background-color: white;
-  color: black;
+  background:
+    linear-gradient(
+      135deg,
+      hsla(0, 0%, 100%, 0.5) 0%,
+      /* Brightest 'shine' at top left */ hsla(0, 0%, 100%, 0.1) 50%,
+      /* Mid-tone transition */ transparent 100%
+        /* Fades to show the background */
+    ),
+    hsla(0, 0%, 100%, 0.9);
+
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  color: var(--color-primary-900);
   border-radius: 0.25rem;
+  filter: drop-shadow(4px 4px 10px hsl(var(--primary-hsl), 5%));
+  transition: filter 0.3s ease;
+}
+
+.card:hover {
+  filter: drop-shadow(8px 8px 15px hsl(var(--primary-hsl), 2%));
 }
 
 .button-blue {
-  background-color: blue;
+  background-color: var(--color-primary-500);
   color: white;
   margin: 0.5rem;
 }
-.button-blue:hover {
-  background-color: var(--color-blue-300);
-}
+
 .button-blue:focus {
-  background-color: var(--color-blue-700);
+  background-color: var(--color-primary-500);
   border: 1px solid black;
 }
 
@@ -130,7 +165,7 @@ textarea {
 input:focus,
 a:focus,
 textarea:focus {
-  outline: 2px solid blue;
+  outline: 2px solid var(--color-primary-500);
 }
 
 .button-likePost,
@@ -153,7 +188,7 @@ textarea:focus {
 }
 
 .li-container {
-  background-color: blue;
+  background-color: var(--color-primary-700);
   color: white;
   margin: 0.25rem;
   padding: 1rem;

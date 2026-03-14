@@ -1,3 +1,4 @@
+// this will be used to make id hash
 function generateRandomString(length) {
   let text = "";
   const possible =
@@ -9,47 +10,57 @@ function generateRandomString(length) {
   return text;
 }
 
+// reusable class for posts
 class Posts {
   constructor(posts) {
     this.posts = posts;
   }
 
+  createUniqueId() {
+    let newId = generateRandomString(6);
+    while (this.posts.some((p) => p.id === newId)) {
+      newId = generateRandomString(6);
+    }
+    return newId;
+  }
+
   createPost(username, content) {
     const newPost = {
-      id: generateRandomString(6),
+      id: this.createUniqueId(),
       username: username,
       content: content,
       likes: 0,
-      liked: false,
+      likedPost: false,
       timestamp: Date.now(),
     };
     this.posts.push(newPost);
     console.log(posts.posts);
   }
-
   likePost(postId) {
     const postToLike = this.posts.find((post) => post.id === postId);
 
-    postToLike.likes++;
+    if (postToLike) {
+      postToLike.likes++;
+      postToLike.likedPost = true;
+    }
   }
   unlikePost(postId) {
     const postToUnlike = this.posts.find((post) => post.id === postId);
 
-    postToUnlike.likes--;
+    if (postToUnlike) {
+      postToUnlike.likes--;
+      postToUnlike.likedPost = false;
+    }
   }
-
   getFeed() {
     return this.posts;
   }
-
   sortByNewest() {
     return this.posts.sort((a, b) => b.timestamp - a.timestamp);
   }
-
   sortByLikes() {
     return this.posts.sort((a, b) => b.likes - a.likes);
   }
-
   getPostsByUser(username) {
     return this.posts.filter(
       (post) => post.username.toLowerCase() === username.toLowerCase(),
@@ -67,7 +78,7 @@ const posts = new Posts([
     username: "Paul",
     content: "Just wrote another song in my sleep!",
     likes: 500,
-    liked: false,
+    likedPost: false,
     timestamp: 117100512322,
   },
   {
@@ -75,7 +86,7 @@ const posts = new Posts([
     username: "John",
     content: "Just Imagine!",
     likes: 222,
-    liked: false,
+    likedPost: false,
     timestamp: 91456217100,
   },
   {
@@ -83,7 +94,7 @@ const posts = new Posts([
     username: "George",
     content: "Whose mind am I set on?!",
     likes: 332,
-    liked: false,
+    likedPost: false,
     timestamp: 613715330000,
   },
   {
@@ -100,23 +111,19 @@ const posts = new Posts([
 console.log(posts);
 posts.likePost(5);
 posts.likePost(3);
-
 posts.sortByNewest();
 console.log(posts);
-
 posts.sortByLikes();
 console.log(posts);
-
 console.log(posts.getPostsByUser("Ringo")); */
 
-// reusable to make new Posts class for a different array of objects
-
+// create Posts container and li's
 const postsContainer = document.querySelector(".posts-container");
 console.log(postsContainer);
 
 const createLis = (array, container) => {
   container.innerHTML = "";
-
+  // controls the message based on the container
   if (array.length === 0) {
     let emptyMessage = document.createElement("li");
     emptyMessage.className = "li-container text-center";
@@ -130,7 +137,7 @@ const createLis = (array, container) => {
     container.appendChild(emptyMessage);
     return;
   }
-
+  // loops through the array and creates each li and it's parts
   array.forEach((item) => {
     let li = document.createElement("li");
     li.className = "li-container flex-column";
@@ -148,10 +155,8 @@ const createLis = (array, container) => {
     let liTimestamp = document.createElement("p");
     const convertEpochToDateOnly = (timeInEpochSecondes) => {
       const dateObject = new Date(timeInEpochSecondes);
-
       const dateOnly = dateObject.toDateString();
       // e.g., "Wed Mar 15 2023"
-
       return dateOnly;
     };
     liTimestamp.textContent = `created: ${convertEpochToDateOnly(item.timestamp)}`;
@@ -183,6 +188,9 @@ const createLis = (array, container) => {
       }
     });
 
+    liLikeButton.classList.toggle("active", item.likedPost);
+    liLikeButton.textContent = item.likedPost ? "Unlike" : "Like";
+
     let liDeleteButton = document.createElement("button");
     liDeleteButton.type = "button";
     liDeleteButton.className = "button button-deletePost";
@@ -202,6 +210,7 @@ const createLis = (array, container) => {
   });
 };
 
+// set event listeners on buttons for Posts container
 const getFeedButton = document.querySelector(".button-get-feed");
 getFeedButton.addEventListener("click", () => {
   createLis(posts.posts, postsContainer);
@@ -219,10 +228,12 @@ sortByLikesButton.addEventListener("click", () => {
   createLis(posts.posts, postsContainer);
 });
 
+// add post form event listener
 const addPostForm = document.querySelector(".form-addPost");
 const userNameInputData = document.querySelector("#newPost-username");
 const contentInputData = document.querySelector("#post-content");
 
+// makes text area submit on enter key pressdown
 contentInputData.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
@@ -247,6 +258,7 @@ addPostForm.addEventListener("submit", (e) => {
   }
 });
 
+// find posts form event listener
 const findPostsForm = document.querySelector(".form-getPostsByUsername");
 const usernameToLookFor = document.querySelector(
   "#getPostsByUsername-username-input",
