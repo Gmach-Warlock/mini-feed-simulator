@@ -117,7 +117,7 @@ const posts = new Posts([
     id: 6,
     username: "Michael",
     content: "Mine ok Paul, mine, mine!",
-    likes: 82,
+    likes: 382,
     likedPost: false,
     timestamp: 615456217100,
   },
@@ -141,7 +141,7 @@ const posts = new Posts([
     id: 9,
     username: "Billy",
     content: "It's a nice day to go on a plane.",
-    likes: 544,
+    likes: 649,
     likedPost: false,
     timestamp: 615715330000,
   },
@@ -319,6 +319,7 @@ const usernameToLookFor = document.querySelector(
   "#getPostsByUsername-username-input",
 );
 const foundPostsContainer = document.querySelector(".find__feed");
+const clearSearchButton = document.querySelector("#find__clear");
 console.log(findPostsForm, usernameToLookFor, foundPostsContainer);
 
 findPostsForm.addEventListener("submit", (e) => {
@@ -339,4 +340,11 @@ findPostsForm.addEventListener("submit", (e) => {
   } else {
     alert("Please enter a valid username!!");
   }
+});
+
+clearSearchButton.addEventListener("click", () => {
+  usernameToLookFor.value = "";
+  foundPostsContainer.innerHTML = `    <li class="feed__item">
+      <p>Please enter a name to search for and click Find Posts!</p>
+    </li>`;
 });

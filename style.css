@@ -4,15 +4,15 @@
   --text-xl: 1.5rem;
   --text-2xl: 2rem;
 
-  --primary-hsl: 240, 100%;
-  --active-hsl: 134, 61%;
+  --primary-hs: 240, 100%;
+  --active-hs: 134, 61%;
 
-  --color-primary-300: hsl(var(--primary-hsl), 65%);
-  --color-primary-500: hsl(var(--primary-hsl), 50%);
-  --color-primary-700: hsl(var(--primary-hsl), 35%);
-  --color-primary-900: hsl(var(--primary-hsl), 10%);
-  --color-active-500: hsl(var(--active-hsl), 41%);
-  --color-active-700: hsl(var(--active-hsl), 31%);
+  --color-primary-300: hsl(var(--primary-hs), 65%);
+  --color-primary-500: hsl(var(--primary-hs), 50%);
+  --color-primary-700: hsl(var(--primary-hs), 35%);
+  --color-primary-900: hsl(var(--primary-hs), 10%);
+  --color-active-500: hsl(var(--active-hs), 41%);
+  --color-active-700: hsl(var(--active-hs), 31%);
 
   --font-roboto: "Roboto", sans-serif;
   --font-glitch: "Rubik Glitch", system-ui;
@@ -40,10 +40,12 @@ body {
   flex-direction: column;
 }
 .page__title {
+  display: inline-block;
+  opacity: 1;
   font-size: var(--text-2xl);
   font-family: var(--font-glitch);
   padding-block: 2rem;
-  text-shadow: 2px 2px 8px hsl(var(--primary-hsl), 5%);
+  text-shadow: 2px 2px 8px hsl(var(--primary-hs), 5%);
   text-align: center;
 }
 .page__footer {
@@ -89,11 +91,11 @@ body {
   backdrop-filter: blur(10px);
   color: var(--color-primary-900);
   border-radius: 0.25rem;
-  filter: drop-shadow(4px 4px 10px hsl(var(--primary-hsl), 5%));
+  filter: drop-shadow(4px 4px 10px hsl(var(--primary-hs), 5%));
   transition: filter 0.3s ease;
 }
 .card:hover {
-  filter: drop-shadow(8px 8px 15px hsl(var(--primary-hsl), 2%));
+  filter: drop-shadow(8px 8px 15px hsl(var(--primary-hs), 2%));
 }
 .card--new-post {
   border: 1px solid var(--color-primary-500);
@@ -110,6 +112,9 @@ body {
 }
 .card--feed {
   padding-bottom: 1rem;
+}
+.card__controls {
+  display: flex;
 }
 
 /* 5. Block: Button */
@@ -129,17 +134,13 @@ body {
   background-color: var(--color-active-500);
   color: white;
   border: 2px solid var(--color-active-700);
-
   transform: scale(1.05);
   transition: all 0.2s ease;
 }
 .btn:active {
-  /* Visuals */
   background-color: white;
   color: var(--color-active-500);
   box-shadow: 0 0 15px var(--color-active-500);
-
-  /* Misc */
   transform: translateY(2px); /* Moves down slightly */
 }
 
@@ -162,7 +163,6 @@ body {
   place-self: center;
 }
 .btn--active {
-  /* This handles the "Sticky" state (Post is Liked) */
   background-color: var(--color-active-500);
   color: white;
 }
@@ -200,15 +200,49 @@ body {
   display: flex;
   flex-direction: column;
 }
-.find__submit {
+.find__actions {
   display: flex;
-  place-items: center;
 }
 
-/* 8. media queries */
+/* 8. Media Queries */
 
 @media screen and (max-width: 350px) {
   .feed__controls {
     gap: 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page__title,
+  .feed__controls {
+    opacity: 0;
+    transform-origin: bottom;
+    animation: blowIn 1.2s 0.5s ease-out forwards;
+  }
+  .page__title {
+    animation-delay: 0.5s;
+  }
+
+  .feed__controls {
+    animation-delay: 0.8s;
+  }
+}
+
+/* Animations */
+
+@keyframes blowIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-200px) skewX(-30deg);
+  }
+  60% {
+    transform: translateX(20px) skewX(-20deg);
+  }
+  80% {
+    transform: translateX(-5px) skewX(10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) skewX(0deg);
   }
 }

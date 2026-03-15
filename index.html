@@ -73,7 +73,7 @@
               class="section__text-area add__text-area"
             ></textarea>
           </div>
-          <div>
+          <div class="card__controls">
             <button type="submit" class="btn btn--primary">Add Post</button>
           </div>
         </form>
@@ -83,7 +83,11 @@
         <h2 class="section__title find__title">Find posts by username</h2>
 
         <div>
-          <ul class="find__feed"></ul>
+          <ul class="find__feed">
+            <li class="feed__item">
+              <p>Please enter a name to search for and click Find Posts!</p>
+            </li>
+          </ul>
         </div>
 
         <form action="/" class="find__form">
@@ -99,15 +103,24 @@
             />
           </div>
 
-          <div class="find__submit">
+          <div class="find__actions">
             <button
               type="submit"
               name="find posts by username button"
               class="btn btn--primary"
-              id="getPostsByUsername-button"
+              id="find__submit"
               title="find posts by username button"
             >
               Find Posts
+            </button>
+            <button
+              type="button"
+              name="clear search button"
+              title="clear search button"
+              class="btn btn--primary"
+              id="find__clear"
+            >
+              Clear Search
             </button>
           </div>
         </form>

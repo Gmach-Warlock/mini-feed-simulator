@@ -20,11 +20,11 @@
 - Filter Posts by User
   - getPostsByUser() should return all of the posts by the username provided
 
-### Posts class
+## Posts class
 
 - I used a class to create the posts to allow for future scalability. This would allow these functions to be used in multiple instances, making it usable with multiple social platforms or feeds.
 
-#### DOM manipulation and Event Listeners Added
+## DOM manipulation and Event Listeners Added
 
 - button created to display the feed,
 - sort buttons created
@@ -34,3 +34,12 @@
 - a default message is displayed in the window as well as custom messages based on the current operation
 - any time any changes are made the feed is re-rendered
 - CSS styled using BEM principles
+
+## Special Features
+
+- Stretch Goals all met
+- Custom animation to make it feel like certain elements are being blown in by the wind
+- Glassmorphism is used to give the cards a floating appearance
+- There is a shadow increase when you hover over a container
+- Clear search field button added
+- Scroll on main feed window so that loading posts doesn't push the other windows completely off the screen
