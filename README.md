@@ -33,3 +33,4 @@
 - an input field for username and a find button created to search for the posts of a particular user
 - a default message is displayed in the window as well as custom messages based on the current operation
 - any time any changes are made the feed is re-rendered
+- CSS styled using BEM principles

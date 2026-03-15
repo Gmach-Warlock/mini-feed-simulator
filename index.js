@@ -70,7 +70,7 @@ class Posts {
     this.posts = this.posts.filter((post) => post.id !== id);
   }
 }
-// feel free to change this for testing purposes
+// Test Array: feel free to change this for testing purposes
 
 const posts = new Posts([
   {
@@ -105,6 +105,54 @@ const posts = new Posts([
     likedPost: false,
     timestamp: 724234505000,
   },
+  {
+    id: 5,
+    username: "Paul",
+    content: "The Super Bowl was cool to play!",
+    likes: 610,
+    likedPost: false,
+    timestamp: 1117100512322,
+  },
+  {
+    id: 6,
+    username: "Michael",
+    content: "Mine ok Paul, mine, mine!",
+    likes: 82,
+    likedPost: false,
+    timestamp: 615456217100,
+  },
+  {
+    id: 7,
+    username: "Paul",
+    content: "I don't believe it!!",
+    likes: 544,
+    likedPost: false,
+    timestamp: 615715330000,
+  },
+  {
+    id: 8,
+    username: "Ringo",
+    content: "So much drama.",
+    likes: 1112,
+    likedPost: false,
+    timestamp: 724234505000,
+  },
+  {
+    id: 9,
+    username: "Billy",
+    content: "It's a nice day to go on a plane.",
+    likes: 544,
+    likedPost: false,
+    timestamp: 615715330000,
+  },
+  {
+    id: 10,
+    username: "Inigo",
+    content: "You don't happen to have six swords do you?",
+    likes: 500,
+    likedPost: false,
+    timestamp: 574234505000,
+  },
 ]);
 // orginal project tests
 /* posts.createPost("Yoko", "John, where are you John?");
@@ -123,7 +171,7 @@ console.log(postsContainer);
 
 const createLis = (array, container) => {
   container.innerHTML = "";
-  // controls the message based on the container
+  // controls the message based on the container and its contents
   if (array.length === 0) {
     let emptyMessage = document.createElement("li");
     emptyMessage.className = "feed__item";
@@ -153,6 +201,7 @@ const createLis = (array, container) => {
     li.appendChild(liP);
 
     let liTimestamp = document.createElement("p");
+    // convert the timestamp to readable format
     const convertEpochToDateOnly = (timeInEpochSecondes) => {
       const dateObject = new Date(timeInEpochSecondes);
       const dateOnly = dateObject.toDateString();
@@ -176,14 +225,20 @@ const createLis = (array, container) => {
     liLikeButton.className = "btn btn--like";
     liLikeButton.textContent = "Like";
     liButtonDiv.appendChild(liLikeButton);
+
     liLikeButton.addEventListener("click", () => {
       if (!item.likedPost) {
         posts.likePost(item.id);
         item.likedPost = true;
-        createLis(posts.posts, container);
       } else {
         posts.unlikePost(item.id);
         item.likedPost = false;
+      }
+
+      if (container === foundPostsContainer) {
+        const updatedUserPosts = posts.getPostsByUser(item.username);
+        createLis(updatedUserPosts, container);
+      } else {
         createLis(posts.posts, container);
       }
     });
@@ -264,6 +319,7 @@ const usernameToLookFor = document.querySelector(
   "#getPostsByUsername-username-input",
 );
 const foundPostsContainer = document.querySelector(".find__feed");
+console.log(findPostsForm, usernameToLookFor, foundPostsContainer);
 
 findPostsForm.addEventListener("submit", (e) => {
   e.preventDefault();

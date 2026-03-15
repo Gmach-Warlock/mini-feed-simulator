@@ -5,13 +5,14 @@
   --text-2xl: 2rem;
 
   --primary-hsl: 240, 100%;
-  --base-lightness: 50%;
+  --active-hsl: 134, 61%;
+
   --color-primary-300: hsl(var(--primary-hsl), 65%);
-  --color-primary-500: hsl(var(--primary-hsl), var(--base-lightness));
+  --color-primary-500: hsl(var(--primary-hsl), 50%);
   --color-primary-700: hsl(var(--primary-hsl), 35%);
   --color-primary-900: hsl(var(--primary-hsl), 10%);
-  --color-active-500: hsl(134, 61%, 41%);
-  --color-active-700: hsl(134, 61%, 31%);
+  --color-active-500: hsl(var(--active-hsl), 41%);
+  --color-active-700: hsl(var(--active-hsl), 31%);
 
   --font-roboto: "Roboto", sans-serif;
   --font-glitch: "Rubik Glitch", system-ui;
@@ -23,9 +24,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-li {
-  list-style-type: none;
 }
 body {
   font-family: var(--font-roboto);
@@ -190,7 +188,12 @@ body {
   border-radius: 0.25rem;
   text-align: center;
 }
-
+.feed__container,
+.find__feed {
+  max-height: 40rem;
+  overflow-y: auto;
+  padding-right: 10px;
+}
 /* 7. Block Find */
 
 .find__form {
