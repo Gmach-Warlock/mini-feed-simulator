@@ -212,7 +212,7 @@ body {
 }
 .feed__container,
 .find__feed {
-  max-height: 40rem;
+  max-height: 37rem;
   overflow-y: auto;
   padding-right: 10px;
 }
