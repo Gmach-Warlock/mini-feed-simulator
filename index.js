@@ -1,15 +1,3 @@
-// this will be used to make id hash
-function generateRandomString(length) {
-  let text = "";
-  const possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-}
-
 // reusable class for posts
 class Posts {
   constructor(posts) {
@@ -17,7 +5,18 @@ class Posts {
   }
 
   createUniqueId() {
+    function generateRandomString(length) {
+      let text = "";
+      const possible =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+      for (let i = 0; i < length; i++) {
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+      }
+      return text;
+    }
     let newId = generateRandomString(6);
+
     while (this.posts.some((p) => p.id === newId)) {
       newId = generateRandomString(6);
     }
@@ -147,8 +146,8 @@ const posts = new Posts([
   {
     id: 10,
     username: "Inigo",
-    content: "You don't happen to have six swords do you?",
-    likes: 500,
+    content: "You better not be lying about the six fingers!!",
+    likes: 1500,
     likedPost: false,
     timestamp: 574234505000,
   },
@@ -164,11 +163,10 @@ posts.sortByLikes();
 console.log(posts);
 console.log(posts.getPostsByUser("Ringo")); */
 
-// create Posts container and li's
+// create Posts container
 const postsContainer = document.querySelector(".feed__container");
 
 // hidden modal logic for custom alert windows
-
 const showModal = (message) => {
   const modal = document.querySelector("#custom-modal");
   const msgElement = document.querySelector("#modal-message");
@@ -190,6 +188,7 @@ const showModal = (message) => {
   });
 };
 
+// create list items
 const createLis = (array, container) => {
   // wipe previous contents before creating, allowing the initial messages
   container.innerHTML = "";
@@ -319,7 +318,7 @@ const addPostForm = document.querySelector(".add__form");
 const userNameInputData = document.querySelector("#newPost-username");
 const contentInputData = document.querySelector("#post-content");
 
-// makes text area submit on enter key pressdown
+// makes text area submit on enter key pressdown (not default)
 contentInputData.addEventListener("keydown", (e) => {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();

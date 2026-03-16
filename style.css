@@ -57,18 +57,18 @@ body {
 
 /* 3. Block: Section */
 
-.section__title {
+.card__title {
   font-size: var(--text-xl);
   color: var(--color-primary-500);
   margin: 0.25rem;
   text-align: center;
 }
-.section__input,
-.section__text-area {
+.card__input,
+.card__text-area {
   font-size: var(--text-sm);
 }
-.section__input:focus,
-.section__text-area:focus {
+.card__input:focus,
+.card__text-area:focus {
   outline: 2px solid var(--color-primary-500);
 }
 
@@ -231,7 +231,7 @@ body {
 .modal {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 50, 0.8); /* Dark blue overlay */
+  background: hsl(var(--primary-hs), 22%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -243,7 +243,7 @@ body {
 }
 
 .modal__content {
-  background: #2a2a72; /* Matching your container color */
+  background: hsl(var(--primary-hs), 22%);
   padding: 2rem;
   border: 2px solid white;
   border-radius: 8px;
