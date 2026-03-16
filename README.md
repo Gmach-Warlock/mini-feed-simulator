@@ -1,6 +1,6 @@
 # Mini Feed Simulator Project
 
-- In this project we are to create a social feed engine which allows a posts array to be manipulated
+- In this project we are to create a social feed engine which allows a posts array to be manipulated.
 
 ## Requirements
 
@@ -11,14 +11,14 @@
   - likes
   - timestamp
 - likePost(postId)
-  - takes in a postId and increases that posts likes by 1
+  - takes in a postId and increases that posts likes by 1.
 - Display Feed
-  - returns the posts array
+  - returns the posts array.
 - Sort the feed
-  - sortbyNewest() should sort by most recent (greatest)timestamp
+  - sortbyNewest() should sort by most recent (greatest)timestamp.
   - sortByLikes() should sort likes in descending order
-- Filter Posts by User
-  - getPostsByUser() should return all of the posts by the username provided
+- Filter Posts by User.
+  - getPostsByUser() should return all of the posts by the username provided.
 
 ## Posts class
 
@@ -26,20 +26,23 @@
 
 ## DOM manipulation and Event Listeners Added
 
-- button created to display the feed,
-- sort buttons created
-- an area for creating new posts with a username input and a content textfield
-- each post has a like and delete button
-- an input field for username and a find button created to search for the posts of a particular user
-- a default message is displayed in the window as well as custom messages based on the current operation
+- button created to display the feed.
+- sort buttons created, and items sorted in descending order as needed according to likes or timestamp.
+- an area for creating new posts with a username input and a content textfield.
+- each post has a like and delete button.
+- an input field for username and a find button created to search for the posts of a particular user.
+- a default message is displayed in the window as well as custom messages based on the current operation.
 - any time any changes are made the feed is re-rendered
-- CSS styled using BEM principles
+- CSS styled using BEM principles.
 
 ## Special Features
 
-- Stretch Goals all met
-- Custom animation to make it feel like certain elements are being blown in by the wind
-- Glassmorphism is used to give the cards a floating appearance
-- There is a shadow increase when you hover over a container
-- Clear search field button added
-- Scroll on main feed window so that loading posts doesn't push the other windows completely off the screen
+- Stretch Goals all met.
+- Custom animations
+  - Wind animation: title and main buttons feel like they are being blow in by wind.
+  - Hover glare: hover over a button for 2 seconds and a glare swipes over the button.
+- Glassmorphism Design: Used semi-transparent backgrounds with a backdrop-filter: blur() to give cards modern floating appearance.
+- Shadow hover: designed to feel like there is a looming presence when a container is hovered over.
+- Clear Search Button: an extra button was added to clear the search results window.
+- Responsive Feed Container: an overflow-y added to maintain window layout regardless of the array size.
+- Custom Themed scrollbars: Deep integeration of my color palette into the UI. Scroll bar styled and custom hover state added.

@@ -6,7 +6,7 @@
 
   --primary-hs: 240, 100%;
   --active-hs: 134, 61%;
-
+  --white-hs: 0, 0%;
   --color-primary-300: hsl(var(--primary-hs), 65%);
   --color-primary-500: hsl(var(--primary-hs), 50%);
   --color-primary-700: hsl(var(--primary-hs), 35%);
@@ -81,11 +81,11 @@ body {
   background:
     linear-gradient(
       135deg,
-      hsla(0, 0%, 100%, 0.5) 0%,
-      hsla(0, 0%, 100%, 0.1) 50%,
+      hsla(var(--white-hs), 100%, 0.5) 0%,
+      hsla(var(--white-hs), 100%, 0.1) 50%,
       transparent 100%
     ),
-    hsla(0, 0%, 100%, 0.9);
+    hsla(var(--white-hs), 100%, 0.8);
 
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -124,11 +124,33 @@ body {
   color: var(--color-primary-500);
   padding: 0.25rem 0.5rem;
   border-radius: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+.btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    transparent,
+    hsla(var(--white-hs), 100%, 0.9),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: none;
 }
 .btn:hover,
 .btn--primary:hover {
   background-color: var(--color-active-500);
   color: white;
+}
+.btn:hover::after {
+  animation: glare-swipe 2s ease-in-out 1s forwards;
 }
 .btn:focus {
   background-color: var(--color-active-500);
@@ -245,4 +267,41 @@ body {
     opacity: 1;
     transform: translateX(0) skewX(0deg);
   }
+}
+
+@keyframes glare-swipe {
+  0% {
+    left: -150%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      hsla(var(--active-hs), 0.6),
+      transparent
+    );
+  }
+  50% {
+    background: linear-gradient(to right, transparent, hsla());
+  }
+  100% {
+    left: 150%;
+  }
+}
+
+/* scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background-color: var(--color-primary-900);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-500);
+  border: 2px solid var(--color-primary-900);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-active-500);
+  cursor: grab;
 }
