@@ -43,6 +43,10 @@
   - Hover glare: hover over a button for 2 seconds and a glare swipes over the button.
 - Glassmorphism Design: Used semi-transparent backgrounds with a backdrop-filter: blur() to give cards modern floating appearance.
 - Shadow hover: designed to feel like there is a looming presence when a container is hovered over.
+- Delete Confirmation: A final confirmation is needed to delete a post.
 - Clear Search Button: an extra button was added to clear the search results window.
+- Unlike Button: an unlike button was added for realism
 - Responsive Feed Container: an overflow-y added to maintain window layout regardless of the array size.
-- Custom Themed scrollbars: Deep integeration of my color palette into the UI. Scroll bar styled and custom hover state added.
+
+- Custom Themed Alert Windows and Scrollbars: Deep integeration of my color palette into the UI.
+  - Custom hover states for the scrollbar and the alert window buttons.

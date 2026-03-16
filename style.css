@@ -226,7 +226,40 @@ body {
   display: flex;
 }
 
-/* 8. Media Queries */
+/* 8. Block: Modal (hidden) */
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 50, 0.8); /* Dark blue overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal__content {
+  background: #2a2a72; /* Matching your container color */
+  padding: 2rem;
+  border: 2px solid white;
+  border-radius: 8px;
+  text-align: center;
+  color: white;
+  max-width: 400px;
+}
+
+.modal__actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/* 9. Media Queries */
 
 @media screen and (max-width: 350px) {
   .feed__controls {
@@ -250,7 +283,7 @@ body {
   }
 }
 
-/* Animations */
+/* 10. Animations */
 
 @keyframes blowIn {
   0% {

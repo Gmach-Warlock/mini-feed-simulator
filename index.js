@@ -34,7 +34,6 @@ class Posts {
       timestamp: Date.now(),
     };
     this.posts.push(newPost);
-    console.log(posts.posts);
   }
   likePost(postId) {
     const postToLike = this.posts.find((post) => post.id === postId);
@@ -167,9 +166,32 @@ console.log(posts.getPostsByUser("Ringo")); */
 
 // create Posts container and li's
 const postsContainer = document.querySelector(".feed__container");
-console.log(postsContainer);
+
+// hidden modal logic for custom alert windows
+
+const showModal = (message) => {
+  const modal = document.querySelector("#custom-modal");
+  const msgElement = document.querySelector("#modal-message");
+  const confirmBtn = document.querySelector("#modal-confirm");
+  const cancelBtn = document.querySelector("#modal-cancel");
+
+  msgElement.textContent = message;
+  modal.classList.remove("hidden");
+
+  return new Promise((resolve) => {
+    confirmBtn.onclick = () => {
+      modal.classList.add("hidden");
+      resolve(true);
+    };
+    cancelBtn.onclick = () => {
+      modal.classList.add("hidden");
+      resolve(false);
+    };
+  });
+};
 
 const createLis = (array, container) => {
+  // wipe previous contents before creating, allowing the initial messages
   container.innerHTML = "";
   // controls the message based on the container and its contents
   if (array.length === 0) {
@@ -187,45 +209,53 @@ const createLis = (array, container) => {
   }
   // loops through the array and creates each li and it's parts
   array.forEach((item) => {
-    let li = document.createElement("li");
+    const li = document.createElement("li");
     li.className = "feed__item";
     container.appendChild(li);
 
-    let liH3 = document.createElement("h3");
+    const liH3 = document.createElement("h3");
     liH3.textContent = item.content;
     li.appendChild(liH3);
 
-    let liP = document.createElement("p");
+    const liP = document.createElement("p");
     liP.textContent = `author: ${item.username}`;
     liP.className = "feed__author";
     li.appendChild(liP);
 
-    let liTimestamp = document.createElement("p");
-    // convert the timestamp to readable format
+    const liTimestamp = document.createElement("p");
+    // convert the timestamp to readable format (e.g., "Wed Mar 15 2023")
     const convertEpochToDateOnly = (timeInEpochSecondes) => {
       const dateObject = new Date(timeInEpochSecondes);
       const dateOnly = dateObject.toDateString();
-      // e.g., "Wed Mar 15 2023"
       return dateOnly;
     };
     liTimestamp.textContent = `created: ${convertEpochToDateOnly(item.timestamp)}`;
     li.appendChild(liTimestamp);
 
-    let liLikes = document.createElement("p");
+    const liLikes = document.createElement("p");
     liLikes.textContent = `likes: ${item.likes}`;
     liLikes.className = "feed__likes";
     li.appendChild(liLikes);
 
-    let liButtonDiv = document.createElement("div");
+    const liButtonDiv = document.createElement("div");
     liButtonDiv.className = "feed__actions";
     li.appendChild(liButtonDiv);
 
-    let liLikeButton = document.createElement("button");
+    const liLikeButton = document.createElement("button");
     liLikeButton.type = "button";
     liLikeButton.className = "btn btn--like";
     liLikeButton.textContent = "Like";
+    liLikeButton.classList.toggle("btn--active", item.likedPost);
+    liLikeButton.textContent = item.likedPost ? "Unlike" : "Like";
     liButtonDiv.appendChild(liLikeButton);
 
+    const liDeleteButton = document.createElement("button");
+    liDeleteButton.type = "button";
+    liDeleteButton.className = "btn btn--delete";
+    liDeleteButton.textContent = "Delete";
+    liButtonDiv.appendChild(liDeleteButton);
+
+    // like button event listener
     liLikeButton.addEventListener("click", () => {
       if (!item.likedPost) {
         posts.likePost(item.id);
@@ -243,29 +273,30 @@ const createLis = (array, container) => {
       }
     });
 
-    liLikeButton.classList.toggle("btn--active", item.likedPost);
-    liLikeButton.textContent = item.likedPost ? "Unlike" : "Like";
+    // delete button event listener
+    liDeleteButton.addEventListener("click", async (e) => {
+      e.preventDefault();
+      // add last verification window
+      const confirmed = await showModal(
+        "Are you sure? This is permanent!",
+        true,
+      );
+      if (confirmed) {
+        console.log(item.id);
+        posts.deletePost(item.id);
 
-    let liDeleteButton = document.createElement("button");
-    liDeleteButton.type = "button";
-    liDeleteButton.className = "btn btn--delete";
-    liDeleteButton.textContent = "Delete";
-    liButtonDiv.appendChild(liDeleteButton);
-    liDeleteButton.addEventListener("click", () => {
-      console.log(item.id);
-      posts.deletePost(item.id);
-
-      if (container === foundPostsContainer) {
-        const updatedUserPosts = posts.getPostsByUser(item.username);
-        createLis(updatedUserPosts, container);
-      } else {
-        createLis(posts.posts, container);
+        if (container === foundPostsContainer) {
+          const updatedUserPosts = posts.getPostsByUser(item.username);
+          createLis(updatedUserPosts, container);
+        } else {
+          createLis(posts.posts, container);
+        }
       }
     });
   });
 };
 
-// set event listeners on buttons for Posts container
+// event listeners on buttons for Posts container
 const getFeedButton = document.querySelector(".btn--feed");
 getFeedButton.addEventListener("click", () => {
   createLis(posts.posts, postsContainer);
@@ -296,7 +327,7 @@ contentInputData.addEventListener("keydown", (e) => {
   }
 });
 
-addPostForm.addEventListener("submit", (e) => {
+addPostForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const username = userNameInputData.value;
@@ -309,7 +340,7 @@ addPostForm.addEventListener("submit", (e) => {
 
     addPostForm.reset();
   } else {
-    alert("Please fill out both fields here!!");
+    await showModal("Please fill out both fields!!");
   }
 });
 
@@ -322,7 +353,7 @@ const foundPostsContainer = document.querySelector(".find__feed");
 const clearSearchButton = document.querySelector("#find__clear");
 console.log(findPostsForm, usernameToLookFor, foundPostsContainer);
 
-findPostsForm.addEventListener("submit", (e) => {
+findPostsForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const username = usernameToLookFor.value.trim();
@@ -338,10 +369,11 @@ findPostsForm.addEventListener("submit", (e) => {
     }
     findPostsForm.reset();
   } else {
-    alert("Please enter a valid username!!");
+    await showModal("Please fill out the username field!!");
   }
 });
 
+// clear search button event listener
 clearSearchButton.addEventListener("click", () => {
   usernameToLookFor.value = "";
   foundPostsContainer.innerHTML = `    <li class="feed__item">
