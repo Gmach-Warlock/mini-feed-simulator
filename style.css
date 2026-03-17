@@ -55,24 +55,7 @@ body {
   padding: 1rem;
 }
 
-/* 3. Block: Section */
-
-.card__title {
-  font-size: var(--text-xl);
-  color: var(--color-primary-500);
-  margin: 0.25rem;
-  text-align: center;
-}
-.card__input,
-.card__text-area {
-  font-size: var(--text-sm);
-}
-.card__input:focus,
-.card__text-area:focus {
-  outline: 2px solid var(--color-primary-500);
-}
-
-/* 4. Block: Card */
+/* 3. Block: Card */
 
 .card {
   min-height: 5rem;
@@ -86,17 +69,26 @@ body {
       transparent 100%
     ),
     hsla(var(--white-hs), 100%, 0.8);
-
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   color: var(--color-primary-900);
   border-radius: 0.25rem;
-
   filter: drop-shadow(4px 4px 10px hsl(var(--primary-hs), 5%));
   transition: filter 0.3s ease;
 }
-.card:hover {
-  filter: drop-shadow(8px 8px 15px hsl(var(--primary-hs), 2%));
+.card__title {
+  font-size: var(--text-xl);
+  color: var(--color-primary-500);
+  margin: 0.25rem;
+  text-align: center;
+}
+.card__input,
+.card__text-area {
+  font-size: var(--text-sm);
+}
+.card__input:focus,
+.card__text-area:focus {
+  outline: 2px solid var(--color-primary-500);
 }
 .card--new-post {
   border: 1px solid var(--color-primary-500);
@@ -117,8 +109,11 @@ body {
 .card__controls {
   display: flex;
 }
+.card:hover {
+  filter: drop-shadow(8px 8px 15px hsl(var(--primary-hs), 2%));
+}
 
-/* 5. Block: Button */
+/* 4. Block: Button */
 
 .btn {
   background-color: white;
@@ -190,7 +185,7 @@ body {
   color: white;
 }
 
-/* 6. Block: Feed */
+/* 5. Block: Feed */
 
 .feed {
   display: flex;
@@ -217,7 +212,7 @@ body {
   overflow-y: auto;
   padding-right: 10px;
 }
-/* 7. Block Find */
+/* 6. Block Find */
 
 .find__form {
   display: flex;
@@ -227,7 +222,7 @@ body {
   display: flex;
 }
 
-/* 8. Block: Modal (hidden) */
+/* 7. Block: Modal (hidden) */
 
 .modal {
   position: fixed;
@@ -260,7 +255,7 @@ body {
   margin-top: 1.5rem;
 }
 
-/* 9. Media Queries */
+/* 8. Media Queries */
 
 @media screen and (max-width: 350px) {
   .feed__controls {
@@ -284,7 +279,7 @@ body {
   }
 }
 
-/* 10. Animations */
+/* 9. Animations */
 
 @keyframes blowIn {
   0% {
@@ -321,7 +316,7 @@ body {
   }
 }
 
-/* scrollbar styling */
+/* 10. Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 10px;
   height: 10px;
