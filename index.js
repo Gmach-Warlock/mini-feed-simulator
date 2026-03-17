@@ -20,14 +20,15 @@ const showModal = (message) => {
   });
 };
 
+// make sure input only contains possible characters (sanitize)
 const validInput = (text) => {
   const possible =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*().?" ';
   const isValid = text.split("").every((char) => possible.includes(char));
 
   return {
     isValid: isValid,
-    allowedChars: "Letters, numbers, and !@#$%*",
+    allowedChars: "Letters, numbers, and !@#$%^&*().? ",
   };
 };
 
@@ -36,7 +37,6 @@ class Posts {
   constructor(posts) {
     this.posts = posts;
   }
-
   createUniqueId() {
     function generateRandomString(length) {
       let text = "";
@@ -55,7 +55,6 @@ class Posts {
     }
     return newId;
   }
-
   createPost(username, content) {
     if (!validInput(username).isValid || !validInput(content).isValid) {
       return "invalid";
