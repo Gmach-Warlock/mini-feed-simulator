@@ -1,3 +1,36 @@
+// hidden modal logic for custom alert windows
+const showModal = (message) => {
+  const modal = document.querySelector("#custom-modal");
+  const msgElement = document.querySelector("#modal-message");
+  const confirmBtn = document.querySelector("#modal-confirm");
+  const cancelBtn = document.querySelector("#modal-cancel");
+
+  msgElement.textContent = message;
+  modal.classList.remove("hidden");
+
+  return new Promise((resolve) => {
+    confirmBtn.onclick = () => {
+      modal.classList.add("hidden");
+      resolve(true);
+    };
+    cancelBtn.onclick = () => {
+      modal.classList.add("hidden");
+      resolve(false);
+    };
+  });
+};
+
+const validInput = (text) => {
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const isValid = text.split("").every((char) => possible.includes(char));
+
+  return {
+    isValid: isValid,
+    allowedChars: "Letters, numbers, and !@#$%*",
+  };
+};
+
 // reusable class for posts
 class Posts {
   constructor(posts) {
@@ -24,6 +57,18 @@ class Posts {
   }
 
   createPost(username, content) {
+    if (!validInput(username).isValid || !validInput(content).isValid) {
+      return "invalid";
+    }
+
+    const isDuplicate = this.posts.some(
+      (p) => p.username === username && p.content === content,
+    );
+
+    if (isDuplicate) {
+      return "duplicate";
+    }
+
     const newPost = {
       id: this.createUniqueId(),
       username: username,
@@ -33,6 +78,7 @@ class Posts {
       timestamp: Date.now(),
     };
     this.posts.push(newPost);
+    return "success";
   }
   likePost(postId) {
     const postToLike = this.posts.find((post) => post.id === postId);
@@ -165,28 +211,6 @@ console.log(posts.getPostsByUser("Ringo")); */
 
 // create Posts container
 const postsContainer = document.querySelector(".feed__container");
-
-// hidden modal logic for custom alert windows
-const showModal = (message) => {
-  const modal = document.querySelector("#custom-modal");
-  const msgElement = document.querySelector("#modal-message");
-  const confirmBtn = document.querySelector("#modal-confirm");
-  const cancelBtn = document.querySelector("#modal-cancel");
-
-  msgElement.textContent = message;
-  modal.classList.remove("hidden");
-
-  return new Promise((resolve) => {
-    confirmBtn.onclick = () => {
-      modal.classList.add("hidden");
-      resolve(true);
-    };
-    cancelBtn.onclick = () => {
-      modal.classList.add("hidden");
-      resolve(false);
-    };
-  });
-};
 
 // create list items
 const createLis = (array, container) => {
@@ -333,11 +357,18 @@ addPostForm.addEventListener("submit", async (e) => {
   const content = contentInputData.value;
 
   if (username && content) {
-    posts.createPost(username, content);
+    const result = posts.createPost(username, content);
 
-    createLis(posts.posts, postsContainer);
-
-    addPostForm.reset();
+    if (result === "invalid") {
+      await showModal(
+        "Invalid Characters! Please use letters, numbers or basic symbols!!",
+      );
+    } else if (result === "duplicate") {
+      await showModal("You have already posted this EXACT message!!!");
+    } else {
+      createLis(posts.posts, postsContainer);
+      addPostForm.reset();
+    }
   } else {
     await showModal("Please fill out both fields!!");
   }
@@ -357,19 +388,29 @@ findPostsForm.addEventListener("submit", async (e) => {
 
   const username = usernameToLookFor.value.trim();
 
-  if (username) {
-    const foundPosts = posts.getPostsByUser(username);
-
-    if (foundPosts.length > 0) {
-      console.log("found the posts", foundPosts);
-      createLis(foundPosts, foundPostsContainer);
-    } else {
-      createLis([], foundPostsContainer);
-    }
-    findPostsForm.reset();
-  } else {
-    await showModal("Please fill out the username field!!");
+  if (!username) {
+    await showModal("Please enter a username to search for!!");
   }
+
+  const validation = validInput(username);
+
+  if (!validation.isValid) {
+    await showModal(
+      "Search contains invalid characters! Please use alpha numeric and basic symbols!!",
+    );
+    findPostsForm.reset();
+    return;
+  }
+
+  const foundPosts = posts.getPostsByUser(username);
+
+  if (foundPosts.length > 0) {
+    console.log("found the posts", foundPosts);
+    createLis(foundPosts, foundPostsContainer);
+  } else {
+    createLis([], foundPostsContainer);
+  }
+  findPostsForm.reset();
 });
 
 // clear search button event listener

@@ -91,6 +91,7 @@ body {
   backdrop-filter: blur(10px);
   color: var(--color-primary-900);
   border-radius: 0.25rem;
+
   filter: drop-shadow(4px 4px 10px hsl(var(--primary-hs), 5%));
   transition: filter 0.3s ease;
 }
