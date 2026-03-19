@@ -1,14 +1,15 @@
 import { convertEpochToDateOnly } from "./convertEpochToDateOnly.js";
+import { showModal } from "./showModal.js";
 
 // create list items
-export const createLis = (array, container) => {
+export const createLis = (array, container, classInstance, mainContainer) => {
   // wipe previous contents before creating, allowing the initial messages
   container.innerHTML = "";
   // controls the message based on the container and its contents
   if (array.length === 0) {
     let emptyMessage = document.createElement("li");
     emptyMessage.className = "feed__item";
-    if (container === foundPostsContainer) {
+    if (container.classList.contains("find__feed")) {
       emptyMessage.innerHTML =
         "This user doesn't have any more posts! Look for someone else!";
     } else {
@@ -44,61 +45,54 @@ export const createLis = (array, container) => {
     liLikes.className = "feed__likes";
     li.appendChild(liLikes);
 
-    const liButtonDiv = document.createElement("div");
-    liButtonDiv.className = "feed__actions";
-    li.appendChild(liButtonDiv);
+    if (!container.classList.contains("find__feed")) {
+      const liButtonDiv = document.createElement("div");
+      liButtonDiv.className = "feed__actions";
+      li.appendChild(liButtonDiv);
 
-    const liLikeButton = document.createElement("button");
-    liLikeButton.type = "button";
-    liLikeButton.className = "btn btn--like";
-    liLikeButton.textContent = "Like";
-    liLikeButton.classList.toggle("btn--active", item.likedPost);
-    liLikeButton.textContent = item.likedPost ? "Unlike" : "Like";
-    liButtonDiv.appendChild(liLikeButton);
+      const liLikeButton = document.createElement("button");
+      liLikeButton.type = "button";
+      liLikeButton.className = "btn btn--like";
+      liLikeButton.classList.toggle("btn--active", item.likedPost);
+      liLikeButton.textContent = item.likedPost ? "Unlike" : "Like";
+      liButtonDiv.appendChild(liLikeButton);
 
-    const liDeleteButton = document.createElement("button");
-    liDeleteButton.type = "button";
-    liDeleteButton.className = "btn btn--delete";
-    liDeleteButton.textContent = "Delete";
-    liButtonDiv.appendChild(liDeleteButton);
+      const liDeleteButton = document.createElement("button");
+      liDeleteButton.type = "button";
+      liDeleteButton.className = "btn btn--delete";
+      liDeleteButton.textContent = "Delete";
+      liButtonDiv.appendChild(liDeleteButton);
 
-    // like button event listener
-    liLikeButton.addEventListener("click", () => {
-      if (!item.likedPost) {
-        posts.likePost(item.id);
-        item.likedPost = true;
-      } else {
-        posts.unlikePost(item.id);
-        item.likedPost = false;
-      }
-
-      if (container === foundPostsContainer) {
-        const updatedUserPosts = posts.getPostsByUser(item.username);
-        createLis(updatedUserPosts, container);
-      } else {
-        createLis(posts.posts, container);
-      }
-    });
-
-    // delete button event listener
-    liDeleteButton.addEventListener("click", async (e) => {
-      e.preventDefault();
-      // add last verification window
-      const confirmed = await showModal(
-        "Are you sure? This is permanent!",
-        true,
-      );
-      if (confirmed) {
-        console.log(item.id);
-        posts.deletePost(item.id);
-
-        if (container === foundPostsContainer) {
-          const updatedUserPosts = posts.getPostsByUser(item.username);
-          createLis(updatedUserPosts, container);
+      // Like Button Event
+      liLikeButton.addEventListener("click", () => {
+        if (!item.likedPost) {
+          classInstance.likePost(item.id);
+          item.likedPost = true;
         } else {
-          createLis(posts.posts, container);
+          classInstance.unlikePost(item.id);
+          item.likedPost = false;
         }
-      }
-    });
+        // Refresh the UI
+        createLis(classInstance.posts, container, classInstance, mainContainer);
+      });
+
+      // Delete Button Event
+      liDeleteButton.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const confirmed = await showModal(
+          "Are you sure? This is permanent!",
+          true,
+        );
+        if (confirmed) {
+          classInstance.deletePost(item.id);
+          createLis(
+            classInstance.posts,
+            container,
+            classInstance,
+            mainContainer,
+          );
+        }
+      });
+    }
   });
 };

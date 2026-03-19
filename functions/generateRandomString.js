@@ -1,3 +1,5 @@
+// generate a random string of given length
+
 export const generateRandomString = (length) => {
   let text = "";
   const possible =

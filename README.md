@@ -34,6 +34,7 @@
 - a default message is displayed in the window as well as custom messages based on the current operation.
 - any time any changes are made the feed is re-rendered
 - CSS styled using BEM principles.
+- repeated functions encapsulated in their own files and imported in
 
 ## Special Features
 

@@ -234,10 +234,6 @@ body {
   z-index: 1000;
 }
 
-.modal.hidden {
-  display: none;
-}
-
 .modal__content {
   background: hsl(var(--primary-hs), 22%);
   padding: 2rem;
@@ -333,4 +329,10 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-active-500);
   cursor: grab;
+}
+
+/* Hidden Utility Class */
+
+.hidden {
+  display: none !important;
 }
