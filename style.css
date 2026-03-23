@@ -106,6 +106,9 @@ body {
 .card--feed {
   padding-bottom: 1rem;
 }
+.card--find {
+  display: flex;
+}
 .card__controls {
   display: flex;
 }
@@ -216,7 +219,8 @@ body {
 
 .find__form {
   display: flex;
-  flex-direction: column;
+  justify-content: end;
+  align-items: center;
 }
 .find__actions {
   display: flex;

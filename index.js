@@ -87,6 +87,20 @@ const posts = new Posts([
     timestamp: 574234505000,
   },
 ]);
+
+const postsContainer = document.querySelector(".feed__container");
+const searchTerms = document.querySelector(".find__input");
+
+let isSearching = false;
+let currentSearchTerm = "";
+
+const refreshUI = () => {
+  const dataToDisplay = isSearching
+    ? posts.getPostsByUser(currentSearchTerm)
+    : posts.posts;
+
+  createLis(dataToDisplay, postsContainer, posts, isSearching, refreshUI);
+};
 // orginal project tests
 /* posts.createPost("Yoko", "John, where are you John?");
 console.log(posts);
@@ -99,24 +113,24 @@ console.log(posts);
 console.log(posts.getPostsByUser("Ringo")); */
 
 // create Posts container
-const postsContainer = document.querySelector(".feed__container");
 
 // event listeners on buttons for Posts container
 const getFeedButton = document.querySelector(".btn--feed");
 getFeedButton.addEventListener("click", () => {
-  createLis(posts.posts, postsContainer, posts, postsContainer);
+  isSearching = false;
+  refreshUI();
 });
 
 const sortByNewestButton = document.querySelector(".btn--timestamp");
 sortByNewestButton.addEventListener("click", () => {
   posts.sortByNewest();
-  createLis(posts.posts, postsContainer, posts, postsContainer);
+  refreshUI();
 });
 
 const sortByLikesButton = document.querySelector(".btn--likes");
 sortByLikesButton.addEventListener("click", () => {
   posts.sortByLikes();
-  createLis(posts.posts, postsContainer, posts, postsContainer);
+  refreshUI();
 });
 
 // add post form event listener
@@ -148,7 +162,8 @@ addPostForm.addEventListener("submit", async (e) => {
     } else if (result === "duplicate") {
       await showModal("You have already posted this EXACT message!!!");
     } else {
-      createLis(posts.posts, postsContainer, posts, postsContainer);
+      console.log(searchTerms);
+      refreshUI();
       addPostForm.reset();
     }
   } else {
@@ -161,8 +176,6 @@ const findPostsForm = document.querySelector(".find__form");
 const usernameToLookFor = document.querySelector(
   "#getPostsByUsername-username-input",
 );
-const foundPostsContainer = document.querySelector(".find__feed");
-const clearSearchButton = document.querySelector("#find__clear");
 
 findPostsForm.addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -183,21 +196,9 @@ findPostsForm.addEventListener("submit", async (e) => {
     return;
   }
 
-  const foundPosts = posts.getPostsByUser(username);
+  isSearching = true;
+  currentSearchTerm = username;
 
-  if (foundPosts.length > 0) {
-    console.log("found the posts", foundPosts);
-    createLis(foundPosts, foundPostsContainer, posts, postsContainer);
-  } else {
-    createLis([], foundPostsContainer, posts, postsContainer);
-  }
+  refreshUI();
   findPostsForm.reset();
-});
-
-// clear search button event listener
-clearSearchButton.addEventListener("click", () => {
-  usernameToLookFor.value = "";
-  foundPostsContainer.innerHTML = `    <li class="feed__item">
-      <p>Please enter a name to search for and click Find Posts!</p>
-    </li>`;
 });
